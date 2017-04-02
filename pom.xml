@@ -15,7 +15,7 @@
     <groupId>org.sandroboehme</groupId>
     <artifactId>sample-launchpad</artifactId>
     <packaging>slingstart</packaging>
-    <version>0.0.6</version>
+    <version>0.0.8</version>
 
     <description>
         A Launchpad. Available in both JAR and WAR flavors.
@@ -143,7 +143,10 @@
                          <layer>middleware</layer>
                          <version>${project.version}</version>
                          <artifactId>${project.artifactId}</artifactId>
-                      </labels>     
+                      </labels>    
+                      <tags>
+                        <tag>latest</tag>
+                      </tags> 
                     </build> 
                   </image>
                 </images>

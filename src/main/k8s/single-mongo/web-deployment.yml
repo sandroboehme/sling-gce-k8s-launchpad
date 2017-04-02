@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: web-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: web
+    spec:
+      containers:
+      - image: sandroboehme/sample-app:0.0.7
+        name: web
+        ports:
+        - name: http-server
+          containerPort: 8080
