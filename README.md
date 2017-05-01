@@ -21,7 +21,8 @@ gcloud components install kubectl
 ### Building and publishing the image
 #### Setup the authentication to e.g. Docker Hub
 The different ways to do it can be found in [the fabric8 docu](https://dmp.fabric8.io/#authentication). The one that worked for me was, adding the following snippet to `~/.m2/settings.xml`:
-`<settings>
+```
+<settings>
   <servers>
     <server>
       <id>docker.io</id>
@@ -29,7 +30,8 @@ The different ways to do it can be found in [the fabric8 docu](https://dmp.fabri
       <password>[your-password]</password>
     </server>
   </servers>
-</settings>`
+</settings>
+```
 
 #### The command 
     mvn clean process-resources slingstart:prepare-package slingstart:package docker:build docker:push
