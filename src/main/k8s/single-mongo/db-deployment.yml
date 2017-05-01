@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: mongo-deployment
 spec:
-  replicas: 1
+  replicas: 0
   template:
     metadata:
       labels:
@@ -14,6 +14,7 @@ spec:
         name: mongo
         ports:
         - name: mongo
+          # Port forwarding from container to Pod
           containerPort: 27017
           hostPort: 27017
         volumeMounts:

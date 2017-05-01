@@ -15,7 +15,7 @@
     <groupId>org.sandroboehme</groupId>
     <artifactId>sample-launchpad</artifactId>
     <packaging>slingstart</packaging>
-    <version>0.0.8</version>
+    <version>1.1.3</version>
 
     <description>
         A Launchpad. Available in both JAR and WAR flavors.
@@ -30,8 +30,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <gpg.useagent>true</gpg.useagent>
-<!--         <mongodb.host>mongo</mongodb.host> -->
-        <mongodb.port>27017</mongodb.port>
         <arguments/>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
