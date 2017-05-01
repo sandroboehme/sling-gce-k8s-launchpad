@@ -8,7 +8,7 @@ This project uses the [sample-bundle](https://github.com/sandroboehme/sling-devo
 ## The status
 *In Development*
 
-There are missing main things like DB backup and recovery, securing Sling, adding more health checks and implementing the suggestions from the MongoDB startup logs. But also main cost optimizations like removing the use of a load balancer, use of [GCE preemptiveness](https://cloud.google.com/compute/docs/instances/preemptible) and thinking about autoscaling to remove not needed cluster nodes ...
+There are missing main things like DB backup and recovery, securing Sling, HTTPS, adding more health checks and implementing the suggestions from the MongoDB startup logs. But also main cost optimizations like removing the use of a load balancer, use of [GCE preemptiveness](https://cloud.google.com/compute/docs/instances/preemptible) and thinking about autoscaling to remove not needed cluster nodes ...
 
 ## Prerequisites
 
