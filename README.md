@@ -3,11 +3,12 @@
 The goal of this project is, to provide a reusable production ready Sling infrastructure and to optimize and enhance it over time.
 That's why bug reports, fixes, enhancements and comments are very much appreciated.
 I'm more of a developer than an ops guy. So please validate for yourself as well if this project works for you.
+This project uses the [sample-bundle](https://github.com/sandroboehme/sling-devops-experiments/tree/master/sample-bundle) as sample web application.
 
 ## The status
 *In Development*
 
-There are missing main things like DB backup and recovery, securing Sling and implementing the suggestions from the MongoDB startup logs. But also main cost optimizations like removing the use of a load balancer, use of [GCE preemptiveness](https://cloud.google.com/compute/docs/instances/preemptible) and thinking about autoscaling to remove not needed cluster nodes ...
+There are missing main things like DB backup and recovery, securing Sling, adding more health checks and implementing the suggestions from the MongoDB startup logs. But also main cost optimizations like removing the use of a load balancer, use of [GCE preemptiveness](https://cloud.google.com/compute/docs/instances/preemptible) and thinking about autoscaling to remove not needed cluster nodes ...
 
 ## Prerequisites
 
