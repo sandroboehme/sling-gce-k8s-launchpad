@@ -33,7 +33,14 @@ The different ways to do it can be found in [the fabric8 docu](https://dmp.fabri
 mvn clean process-resources slingstart:prepare-package slingstart:package docker:build docker:push
 
 ## This project currently supports two configurations.
-1. Single MongoDB instance. It allows to horizontally scale the web-app in Jetty and to release a new version without downtime. It allows only one MongoDB image running. But it will be automatically restarted if the process dies. Check out more in the [src/main/k8s/single-mongo subfolder](src/main/k8s/single-mongo/README.md)
+1. Web server and application with single MongoDB instance. 
+![Single Mongo](src/main/docu/k8s-example/Folie1.png)
+
+It allows to horizontally scale the web-app in Jetty and to release a new version without downtime. It allows only one MongoDB image running. But it will be automatically restarted if the process dies. Check out more in the [src/main/k8s/single-mongo subfolder](src/main/k8s/single-mongo/README.md)
 (src/main/docu/k8s-example/Folie1.png "Single MongoDB instance")
-1. With MongoDB ReplSet instances.  Check out more in the [src/main/k8s/replset-mongo subfolder](src/main/k8s/replset-mongo/README.md)
+
+1. Web server and application with MongoDB ReplSet instances.
+![Repl Set Mongo](src/main/docu/k8s-example/Folie2.png)
+
+Check out more in the [src/main/k8s/replset-mongo subfolder](src/main/k8s/replset-mongo/README.md)
 (src/main/docu/k8s-example/Folie2.png "MongoDB ReplSet instances")

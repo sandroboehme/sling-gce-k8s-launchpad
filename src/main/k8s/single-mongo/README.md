@@ -2,31 +2,33 @@
 This setup allows to horizontally scale the web-app in Jetty and to release a new version of the web-app without downtime. Every web-app connects to the same MongoDB instance. But it will be automatically restarted by the Kubernetes Deployment if it's process dies. 
 
 ## The setup
-(../../docu/k8s-example/Folie1.png "Single MongoDB instance")
+![Single MongoDB instance](../../docu/k8s-example/Folie1.png)
                                  
 ## Create the project
-1. Go to https://console.cloud.google.com
+1. Go to the [Google Cloud Console](https://console.cloud.google.com)
 1. Create a project for this setup from the dropdown left beside the big search field. We will call it `sling-single-mongo` in this example
 1. Navigate to the Container engine from the menu on the left and activate it.
 
 ## Create the cluster ...
 The following commmand creates a cluster of 3 g1-small nodes in the US. You find the pricing [here](https://cloud.google.com/compute/pricing#predefined_machine_types). We will be using the name `sling-cluster` throughout this project.
-  `gcloud container \
-  clusters create "sling-cluster" \
-  --project "sling-single-mongo" \
-  --zone "us-central1-a" \
-  --machine-type "g1-small" \
-  --num-nodes "3" \
-  --network "default"`
+
+    gcloud container \
+    clusters create "sling-cluster" \
+    --project "sling-single-mongo" \
+    --zone "us-central1-a" \
+    --machine-type "g1-small" \
+    --num-nodes "3" \
+    --network "default"
   
 ## Or authenticate with an existing Google Cluster
-gcloud container clusters get-credentials sling-cluster \
-  --project "sling-single-mongo" \
-  --zone "us-central1-a"
+    gcloud container clusters get-credentials sling-cluster \
+      --project "sling-single-mongo" \
+      --zone "us-central1-a"
   
 ## The concrete Kubernetes setup
 You are about to create the following Kubernetes setup:
-(../../docu/k8s-example/Folie3.png "Single MongoDB instance")
+![Single MongoDB instance](../../docu/k8s-example/Folie3.png)
+
 The file `db-deployment.yml` describes the [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) of the [https://kubernetes.io/docs/concepts/workloads/pods/pod/](Pod) with the label `name=mongo`. It initially creates the Pod with a new cluster ip and makes sure that it is recreated if the process dies.
 It also specifies (`spec`) the Pod template that should be used to (re)create the [https://kubernetes.io/docs/concepts/workloads/pods/pod/](Pod). It describes the image name `mongo` at Docker-Hub that should be used, the Container- and the Pod-Port and the mount that should be used to store the data.
 As the web-app does not know in advance the port of the MongoDB that the [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) will use it is setup to use the DNS name `mongo` as you see in the `web-deployment.yml`. The Kubernetes [Service](https://kubernetes.io/docs/concepts/services-networking/service/) defined in `db-service.yml` creates a DNS entry to make sure to always return the right MongoDB Pod-IP for the name `mongo`. It finds it by using the [label](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) selector.
@@ -38,33 +40,27 @@ The `../web-service.yml` file defines the Kubernetes Service of type load balanc
 
 ## Applying the setup within the `single-mongo` folder
 1. Creating the disk for the database
-
-    gcloud compute disks create \
-      --project "sling-single-mongo" \
-      --zone "us-central1-a" \
-      --size 200GB \
-      mongo-disk
-      
+  `gcloud compute disks create  --project "sling-single-mongo" --zone "us-central1-a" --size 200GB mongo-disk`
 1. Applying the DB instance and service 
-`kubectl apply -f db-deployment.yml`
-`kubectl apply -f db-service.yml` 
+  `kubectl apply -f db-deployment.yml`
+  `kubectl apply -f db-service.yml` 
 1. Applying the DB instance and service
-`kubectl apply -f web-deployment.yml`
-`kubectl apply -f ../web-service.yml`
+  `kubectl apply -f web-deployment.yml`
+  `kubectl apply -f ../web-service.yml`
 
 ## Get public IP address <a name="get-public-ip"></a>
-`kubectl describe service -l name=web`
-The one next to `LoadBalancer Ingress`
-Your application should be available under  `http://<ip-address>/mynode.test` 
+  `kubectl describe service -l name=web`
+
+The one next to `LoadBalancer Ingress` is the one to be used for `http://<ip-address>/mynode.test`.
 
 ## Scale up
-### raise the number of nodes if needed
+### Raise the number of nodes if needed
     gcloud container \
       clusters resize "sling-cluster" \
       --project "sling-replset-mongo" \
       --zone "us-central1-a" \
       --size 3
-## add web-application instances
+### Add web-application instances
 Raise the number of replicas in the `web-deployment` file and call again
 `kubectl apply -f web-deployment.yml`.
 
