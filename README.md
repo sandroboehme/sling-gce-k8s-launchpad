@@ -19,6 +19,8 @@ https://cloud.google.com/sdk/
 gcloud components install kubectl
 
 ### Building and publishing the image
+If you want to jump right into building up the cluster you can skip this part as sample-app images that are used in the setup are already available.
+
 #### Setup the authentication to e.g. Docker Hub
 The different ways to do it can be found in [the fabric8 docu](https://dmp.fabric8.io/#authentication). The one that worked for me was, adding the following snippet to `~/.m2/settings.xml`:
 ```
@@ -26,8 +28,8 @@ The different ways to do it can be found in [the fabric8 docu](https://dmp.fabri
   <servers>
     <server>
       <id>docker.io</id>
-      <username>sandroboehme</username>
-      <password>[your-password]</password>
+      <username>[your-docker.io-username]</username>
+      <password>[your-docker.io-password]</password>
     </server>
   </servers>
 </settings>
@@ -46,3 +48,8 @@ It allows to horizontally scale the web-app in Jetty and to release a new versio
 ![Repl Set Mongo](src/main/docu/k8s-example/Folie2.png)
 
 Check out more in the [src/main/k8s/replset-mongo subfolder](src/main/k8s/replset-mongo/README.md)
+
+## Debugging
+* You can run `kubectl get [pods/services/deployments/...] [id]` to get the main information about the entity. For a rolling update of a new Pod image you can add `-w` like this `kubectl get pods -w` to see how the Pods are gracefully created and terminated. Using `describe` in stead of `get` is useful if you need more detailed information. You can always use the singular and plural form for entities in the commands. 
+* Use `kubectl logs <podname>` to see the stdout of the image in the Pod. Add the image name if there is more than one image in the Pod.
+* Use `kubectl exec -it <podname> bash` to get the command line for an image within a Pod.
