@@ -44,7 +44,7 @@ The `../web-service.yml` file defines the Kubernetes Service of type load balanc
 1. Applying the DB instance and service 
   `kubectl apply -f db-deployment.yml`
   `kubectl apply -f db-service.yml` 
-1. Applying the DB instance and service
+1. Applying the web instance and service after the DB Pods are available
   `kubectl apply -f web-deployment.yml`
   `kubectl apply -f ../web-service.yml`
 

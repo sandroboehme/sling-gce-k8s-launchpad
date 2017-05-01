@@ -38,7 +38,7 @@ If you would like to have a fast and more expensive setup call `kubectl apply -f
 ### Apply the Service and StatefulSet (with specified persistent drive)
 `kubectl apply -f mongo-statefulset.yaml`
 
-### Apply the web-app Deployment with its Pods
+### Apply the web-app Deployment with its Pods after the DB Pods are ready
 `kubectl apply -f web-deployment.yml`
 
 ### Apply the load balancer service
