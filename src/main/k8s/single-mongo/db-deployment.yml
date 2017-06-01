@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: mongo-deployment
 spec:
-  replicas: 0
+  replicas: 1
   template:
     metadata:
       labels:

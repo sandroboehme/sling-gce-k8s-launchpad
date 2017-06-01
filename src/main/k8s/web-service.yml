@@ -5,7 +5,9 @@
      labels:
        layer: web
     spec:
-     type: LoadBalancer
+#     type: LoadBalancer
+#     type: ClusterIP
+     type: NodePort
      ports:
        - port: 80
          targetPort: http-port

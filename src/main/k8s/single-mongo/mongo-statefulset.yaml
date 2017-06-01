@@ -15,8 +15,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongo
-  labels:
-    name: mongo
 spec:
   ports:
   - port: 27017
@@ -31,7 +29,7 @@ metadata:
   name: mongo
 spec:
   serviceName: "mongo"
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -40,29 +38,21 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       containers:
-        - name: mongo
-          image: mongo
-          command:
-            - mongod
-            - "--replSet"
-            - rs0
-            - "--smallfiles"
-            - "--noprealloc"
+        - image: mongo
+          name: mongo
           ports:
-            - containerPort: 27017
+          - name: mongo
+            # Port forwarding from container to Pod
+            containerPort: 27017
+            hostPort: 27017
           volumeMounts:
             - name: mongo-pvc
               mountPath: /data/db
-        - name: mongo-sidecar
-          image: cvallance/mongo-k8s-sidecar
-          env:
-            - name: MONGO_SIDECAR_POD_LABELS
-              value: "role=mongo,environment=test"
   volumeClaimTemplates:
   - metadata:
       name: mongo-pvc
       annotations:
-        volume.beta.kubernetes.io/storage-class: "slow"
+#        volume.beta.kubernetes.io/storage-class: "slow"
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:

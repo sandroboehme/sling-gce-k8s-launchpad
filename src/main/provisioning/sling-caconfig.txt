@@ -17,30 +17,18 @@
 #  under the License.
 #
 #
-[feature name=sling-event]
+[feature name=sling-validation]
 
 [artifacts]
-    org.apache.sling/org.apache.sling.discovery.api/1.0.4
-    org.apache.sling/org.apache.sling.discovery.support/1.0.0
-    org.apache.sling/org.apache.sling.discovery.commons/1.0.20
-    org.apache.sling/org.apache.sling.discovery.base/2.0.0
-    org.apache.sling/org.apache.sling.discovery.oak/1.2.18
+    org.apache.sling/org.apache.sling.caconfig.api/1.1.0
+    org.apache.sling/org.apache.sling.caconfig.spi/1.3.0
+    org.apache.sling/org.apache.sling.caconfig.impl/1.4.0
 
 [:repoinit]
-    create service user sling-discovery
-
-    create path (sling:Folder) /var/discovery
-    create path (sling:Folder) /var/discovery/oak
-
-    set ACL for sling-discovery
-        allow   jcr:read,rep:write    on /var/discovery
-    end
-
+    create path (sling:Folder) /conf
 
 [configurations]
-    org.apache.sling.serviceusermapping.impl.ServiceUserMapperImpl.amended-sling.discovery
+    org.apache.sling.serviceusermapping.impl.ServiceUserMapperImpl.amended-sling-caconfig
         user.mapping=[
-            "org.apache.sling.discovery.commons\=sling-discovery",
-            "org.apache.sling.discovery.base\=sling-discovery",
-            "org.apache.sling.discovery.oak\=sling-discovery"
+            "org.apache.sling.caconfig.impl\=sling-readall"
         ]
