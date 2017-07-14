@@ -1,0 +1,103 @@
+kubectl config use-context minikube
+
+
+echo "$(minikube ip) traefik-ui.minikube" | sudo tee -a /etc/hosts
+
+minikube start --vm-driver=xhyve
+Nicht persistent-volume.yml ausführen sondern direkt mongo-statefulset.yaml.
+minikube service NAME
+minikube delete
+
+docker run --name mongo mongo
+
+docker run -e MONGO_HOST='mongo' -p 80:8080 --link mongo sandroboehme/sample-app:1.1.5
+
+    
+http://alesnosek.com/blog/2017/02/14/accessing-kubernetes-pods-from-outside-of-the-cluster/
+Der NodePort wird vom kube-proxy auf jedem Kubernetes Node aufgemacht. Er leitet den Traffik per round-robin auf den / die selektierten Pods weiter die sich auf dem Node befinden.
+
+gcloud container clusters get-credentials \
+--project "sandroboehme-de-3" \
+--zone "us-central1-a" \
+cluster
+
+gcloud container get-server-config \
+--project "sandroboehme-de-4" \
+--zone "us-central1-a" \
+
+gcloud alpha container \
+clusters create "cluster" \
+--project "sandroboehme-de-6" \
+--zone "us-central1-a" \
+--enable-autoscaling \
+--min-nodes=1 \
+--max-nodes=10 \
+--preemptible \
+--machine-type "g1-small" \
+--disk-size=10
+
+gcloud alpha container \
+clusters create "cluster" \
+--project "traefik2" \
+--zone "us-central1-a" \
+--enable-autoscaling \
+--min-nodes=1 \
+--max-nodes=10 \
+--preemptible \
+--machine-type "f1-micro" \
+--disk-size=10 \
+--no-enable-legacy-authorization
+ 
+g1-small
+f1-micro
+Node pool per machine type in a cluster:
+https://cloud.google.com/container-engine/docs/node-pools
+
+
+gcloud compute firewall-rules create mynodeportrule --allow tcp:30080,tcp:30443
+
+gcloud compute firewall-rules create mynodeportrule --allow tcp:30080 \
+--project "sandroboehme-de-6" 
+
+gcloud beta container \
+clusters create "cluster" \
+--project "sandroboehmede" \
+--zone "us-central1-a" \
+--machine-type "f1-micro" \
+--num-nodes "3" \
+--preemptible \
+--network "default"
+
+gcloud beta container \
+clusters create "cluster" \
+--project "sandroboehme-de" \
+--zone "us-central1-a" \
+--machine-type "g1-small" \
+--num-nodes "4" \
+--preemptible \
+--network "default"
+
+gcloud beta container \
+clusters create "cluster" \
+--project "sandroboehme-de" \
+--zone "us-central1-a" \
+--machine-type "n1-standard-1" \
+--num-nodes "3" \
+--preemptible \
+--network "default"
+
+https://medium.com/@patrickeasters/using-traefik-with-tls-on-kubernetes-cb67fb43a948
+kubectl create secret generic acme --namespace=kube-system
+
+17:15
+10.3.150.49 d_CPREQ_17283_SCRM_API
+
+Launchpad Builder
+1. Snapshot Versionen entfernen
+2. aus boot.txt oak.tar raus nehmen
+
+kubectl delete statefulset mongo
+kubectl delete pvc mongo-persistent-storage
+kubectl delete pv pv0001
+
+kubectl delete pvc myclaim
