@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: web-deployment
 spec:
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -11,26 +11,26 @@ spec:
         layer: web
     spec:
       containers:
-          # Version 1 of the sample-app: 1.1.4
+          # Version 1 of the sample-app: 1.1.5
           # Version 2 of the sample-app: 1.2.3
-      - image: sandroboehme/sample-app:1.1.4
+      - image: sandroboehme/sample-app:1.1.10
         env:
           - name: MONGO_HOST
-            value: "mongo-0.mongo,mongo-1.mongo"
+            value: "mongo-0.mongo,mongo-1.mongo,mongo-2.mongo"
           - name: MONGO_PORT
             value: "27017"
         name: web
         ports:
             - name: http-port
               containerPort: 8080
-#        readinessProbe:
-#          httpGet:
-#            path: /mynode.test
-#            port: http-port
-#          initialDelaySeconds: 50
-#          periodSeconds: 3
-#        lifecycle:
-#          preStop:
-#            exec:
-#              # A workaround to get 0% downtime during deploys. This should
-#              command: ["curl http://localhost:8080/mynode.test?ready=false -u admin:admin && sleep 15"]
+        readinessProbe:
+          httpGet:
+            path: /mynode.test
+            port: http-port
+          initialDelaySeconds: 50
+          periodSeconds: 3
+        lifecycle:
+          preStop:
+            exec:
+              # A workaround to get 0% downtime during deploys. This should
+              command: ["curl http://localhost:8080/mynode.test?ready=false -u admin:admin && sleep 15"]

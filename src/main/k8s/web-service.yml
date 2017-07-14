@@ -6,10 +6,11 @@
        layer: web
     spec:
 #     type: LoadBalancer
-#     type: ClusterIP
      type: NodePort
      ports:
        - port: 80
+         nodePort: 30080
+#         hostPort: 
          targetPort: http-port
          protocol: TCP
      selector:

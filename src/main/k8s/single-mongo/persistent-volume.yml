@@ -16,7 +16,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: myclaim
+  name: mongo-pvc
 spec:
   accessModes:
     - ReadWriteOnce

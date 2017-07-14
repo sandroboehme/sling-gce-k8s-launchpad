@@ -15,7 +15,7 @@
           containers:
           # Version 1 of the sample-app: 1.1.4
           # Version 2 of the sample-app: 1.2.3
-          - image: sandroboehme/sample-app:1.1.4
+          - image: sandroboehme/sample-app:1.1.10
             env:
               - name: MONGO_HOST
                 value: "mongo-0.mongo"
