@@ -58,7 +58,8 @@ Check out more in the [src/main/k8s/replset-mongo subfolder](src/main/k8s/replse
 * Define the start parameter for the server
     * `export DBG="-Xmx384M -agentlib:jdwp=transport=dt_socket,address=30303,server=y,suspend=n"`
 * Start the web server: `java $DBC -jar target/sample-launchpad-2.0.0.jar -c slinghome`
-* It's available after startup at `http://localhost:8080´
+* Sling is available after startup at `http://localhost:8080´
+* The sample app is available at `http://localhost:8080/content/mynode.test`
 * Kill the web server (via ctrl-c)
 * Stop the MongoDB Docker container `docker stop mongo`
 * Remove the MongoDB Docker container `docker rm mongo`
@@ -69,7 +70,8 @@ Check out more in the [src/main/k8s/replset-mongo subfolder](src/main/k8s/replse
 * Start the Docker container of the web server and link to the MongoDB server
     * `docker run -e MONGO_HOST='mongo' -p 8080:8080 --link mongo sandroboehme/sample-app:2.0.0`
     * Exposes the port 8080 of the image to 8080
-* It's available after startup at `http://localhost:8080´
+* Sling is available after startup at `http://localhost:8080´
+* The sample app is available at `http://localhost:8080/content/mynode.test`
 * Stop the MongoDB Docker container `docker stop mongo`
 * Remove the MongoDB Docker container `docker rm mongo`
 * Find the container id of the web server with `docker ps -a`
