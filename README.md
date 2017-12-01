@@ -53,10 +53,10 @@ Check out more in the [src/main/k8s/replset-mongo subfolder](src/main/k8s/replse
 
 ### Via java -jar
 * Start the MongoDB Docker container: `docker run -p 27017:27017 --name mongo mongo`
-** Specifies the handy container name `mongo`
-** Exposes the port 27017 of the image to 27017
+    * Specifies the handy container name `mongo`
+    * Exposes the port 27017 of the image to 27017
 * Define the start parameter for the server
-** `export DBG="-Xmx384M -agentlib:jdwp=transport=dt_socket,address=30303,server=y,suspend=n"`
+    * `export DBG="-Xmx384M -agentlib:jdwp=transport=dt_socket,address=30303,server=y,suspend=n"`
 * Start the web server: `java $DBC -jar target/sample-launchpad-2.0.0.jar -c slinghome`
 * It's available after startup at `http://localhost:8080´
 * Kill the web server (via ctrl-c)
@@ -65,10 +65,10 @@ Check out more in the [src/main/k8s/replset-mongo subfolder](src/main/k8s/replse
 
 ### The docker image
 * Start the MongoDB Docker container: `docker run --name mongo mongo`
-** Specifies the container name `mongo` to be used as host name later
+    * Specifies the container name `mongo` to be used as host name later
 * Start the Docker container of the web server and link to the MongoDB server
-** `docker run -e MONGO_HOST='mongo' -p 8080:8080 --link mongo sandroboehme/sample-app:2.0.0`
-** Exposes the port 8080 of the image to 8080
+    * `docker run -e MONGO_HOST='mongo' -p 8080:8080 --link mongo sandroboehme/sample-app:2.0.0`
+    * Exposes the port 8080 of the image to 8080
 * It's available after startup at `http://localhost:8080´
 * Stop the MongoDB Docker container `docker stop mongo`
 * Remove the MongoDB Docker container `docker rm mongo`
