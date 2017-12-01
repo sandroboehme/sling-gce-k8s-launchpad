@@ -49,6 +49,32 @@ It allows to horizontally scale the web-app in Jetty and to release a new versio
 
 Check out more in the [src/main/k8s/replset-mongo subfolder](src/main/k8s/replset-mongo/README.md)
 
+## Start locally
+
+### Via java -jar
+* Start the MongoDB Docker container: `docker run -p 27017:27017 --name mongo mongo`
+** Specifies the handy container name `mongo`
+** Exposes the port 27017 of the image to 27017
+* Define the start parameter for the server
+** `export DBG="-Xmx384M -agentlib:jdwp=transport=dt_socket,address=30303,server=y,suspend=n"`
+* Start the web server: `java $DBC -jar target/sample-launchpad-2.0.0.jar -c slinghome`
+* It's available after startup at `http://localhost:8080´
+* Kill the web server (via ctrl-c)
+* Stop the MongoDB Docker container `docker stop mongo`
+* Remove the MongoDB Docker container `docker rm mongo`
+
+### The docker image
+* Start the MongoDB Docker container: `docker run --name mongo mongo`
+** Specifies the container name `mongo` to be used as host name later
+* Start the Docker container of the web server and link to the MongoDB server
+** `docker run -e MONGO_HOST='mongo' -p 8080:8080 --link mongo sandroboehme/sample-app:2.0.0`
+** Exposes the port 8080 of the image to 8080
+* It's available after startup at `http://localhost:8080´
+* Stop the MongoDB Docker container `docker stop mongo`
+* Remove the MongoDB Docker container `docker rm mongo`
+* Find the container id of the web server with `docker ps -a`
+* Kill it like the MongoDB container
+
 ## Debugging
 * You can run `kubectl get [pods/services/deployments/...] [id]` to get the main information about the entity. For a rolling update of a new Pod image you can add `-w` like this `kubectl get pods -w` to see how the Pods are gracefully created and terminated. Using `describe` in stead of `get` is useful if you need more detailed information. You can always use the singular and plural form for entities in the commands. 
 * Use `kubectl logs <podname>` to see the stdout of the image in the Pod. Add the image name if there is more than one image in the Pod.
