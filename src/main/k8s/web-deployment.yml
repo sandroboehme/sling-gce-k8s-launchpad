@@ -15,10 +15,10 @@
           containers:
           # Version 1 of the sample-app: 1.1.3
           # Version 2 of the sample-app: 1.2.3
-          - image: sandroboehme/sample-app:1.1.3
+          - image: sandroboehme/sample-app:2.0.0
             env:
               - name: MONGO_HOST
-                value: "mongo"
+                value: "mongo-0.mongo,mongo-1.mongo,mongo-2.mongo"
               - name: MONGO_PORT
                 value: "27017"
             name: web
@@ -27,12 +27,13 @@
               containerPort: 8080
             readinessProbe:
               httpGet:
-                path: /mynode.test
+                path: /content/mynode.test
                 port: http-port
-              initialDelaySeconds: 50
+              initialDelaySeconds: 90
               periodSeconds: 3
+              timeoutSeconds: 10
             lifecycle:
               preStop:
                 exec:
                   # A workaround to get 0% downtime during deploys. This should
-                  command: ["curl http://localhost:8080/mynode.test?ready=false -u admin:admin && sleep 15"]
+                  command: ["curl http://localhost:8080/content/mynode.test?ready=false -u admin:admin && sleep 15"]
