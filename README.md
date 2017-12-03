@@ -5,7 +5,7 @@ That's why bug reports, fixes, enhancements and comments are very much appreciat
 I'm more of a developer than an ops guy. So please validate for yourself as well if this project works for you.
 This project uses the [sample-bundle](https://github.com/sandroboehme/sling-devops-experiments/tree/master/sample-bundle) as sample web application.
 
-This project supports this high availability setup:
+The project supports this high availability setup:
 
 ![Repl Set Mongo](src/main/docu/k8s-example/Folie2.png)
 
@@ -86,6 +86,7 @@ In case of any problems check out the debugging chapter below.
 1. Navigate to the Kubernetes engine / Container engine from the menu on the left and activate it.
 1. The following commmand creates a cluster of 3 g1-small nodes in the US. You find the pricing [here](https://cloud.google.com/compute/pricing#predefined_machine_types). We will be using the name `sling-cluster` throughout this project. You can try to use smaller machine types and fewer nodes. Especially if you have only one MongoDB instance. Just one hint: If you hit a problem that doesn't seem to be justified by the change you did then try first to raise the number of nodes or choose a bigger machine type. It took me way to much time trying to solve the wrong problem as I have just had not enough machine power.
 
+```
     gcloud container \
     clusters create "sling-cluster" \
     --project "sling" \
@@ -93,11 +94,15 @@ In case of any problems check out the debugging chapter below.
     --machine-type "g1-small" \
     --num-nodes "3" \
     --network "default"
+```
+
 ### If the cluster is already there you can just reauthenticate 
-   
+
+```   
     gcloud container clusters get-credentials sling-cluster \
       --project "sling" \
       --zone "us-central1-a"
+```
 
 ### Create the cluster locally in a Minikube
 If you want to try that out locally without the Google cloud you can use this Minikube setup. 
@@ -125,12 +130,16 @@ If you would like to have a fast but more expensive setup call `kubectl apply -f
 
 ### Apply the Service and StatefulSet (with specified persistent drive)
 Make sure you have set the storage size at the end of the file according to your requirements.
-`kubectl apply -f mongo-statefulset-replset.yaml` in case you want to use the MongoDB replication or  
+
+`kubectl apply -f mongo-statefulset-replset.yaml` in case you want to use the MongoDB replication or
+  
 `kubectl apply -f mongo-statefulset-single.yaml` in case you only need one MongoDB instance
+
 In case you run this setup in the minikube you can use `mongo-statefulset_single-local.yaml`.
 
 ### Apply the web-app Deployment with its Pods after the DB Pods are ready
 If you don't use the ReplSet make sure you remove the other two MongoDB host names from the web-deployment file.
+
 `kubectl apply -f web-deployment.yml`
 
 ### Apply the load balancer service
@@ -138,23 +147,28 @@ If you don't use the ReplSet make sure you remove the other two MongoDB host nam
 
 ### Get public IP address <a name="get-public-ip"></a>
 In the Google cloud you can run:
-  `kubectl describe service -l name=web`
+    `kubectl describe service -l name=web`
+    
 The one next to `LoadBalancer Ingress` is the one to be used for `http://<ip-address>/content/mynode.test`.
 In the Minikube you can run `minikube service web` to get the resulting IP and open it in the browser.
 
-### Scale up
-#### Raise the number of nodes if needed
+### Scale
+#### Raise (or reduce) the number of nodes if needed
+
+```
     gcloud container \
       clusters resize "sling-cluster" \
       --project "sling" \
       --zone "us-central1-a" \
       --size 3
+```
+
 #### Add web-application instances
-Raise the number of replicas in the `web-deployment` file and call again
+Raise (or reduce) the number of replicas in the `web-deployment` file and call again
 `kubectl apply -f web-deployment.yml`.
 
 ### Rollout a new application version
-Call `watch -n 0.25 "curl http://<ip-address>/mynode.test"` to see every 1/4 second if it gets unavailable.
+Call `watch -n 0.25 "curl http://<ip-address>/content/mynode.test"` to see every 1/4 second if it gets unavailable.
 Change the image version in the `web-deployment` file (see example in the file) and call again
 `kubectl apply -f web-deployment.yml`.
 You will see that Pods get updated gracefully `curl` should not yield any errors from the requests of the curl command. 
@@ -163,17 +177,20 @@ You will see that Pods get updated gracefully `curl` should not yield any errors
 Set the number of replicas in the web-deployment and the MongoDB instance to `0` and call again
 `kubectl apply -f` with the respective files. This way Kubernetes doesn't try to create pods after the nodes are removed from the cluster with the following command:
 
+```
     gcloud container \
       clusters resize "sling-cluster" \
       --project "sling" \
       --zone "us-central1-a" \
       --size 0
+```
 
 This stops creating costs for the nodes.
 It hasn't been evaluated yet what other costs (load balancer, stores,..) need to be avoided and how to do that (except deleting the whole cluster or project).
   
 ## Cleanup
 
+```
     gcloud compute disks delete \
       --project "sling" \
       --zone "us-central1-a" \
@@ -187,10 +204,11 @@ It hasn't been evaluated yet what other costs (load balancer, stores,..) need to
     gcloud container clusters delete "sling-cluster" \
       --project "sling" \
       --zone "us-central1-a" 
-    
+```
+
    or
     
-    minikube delete
+    `minikube delete`
     
 Then you can go the the `Compute Engine` configuration in the Google Cloud console and navigate to `drives` there you can delete the drives.
 
